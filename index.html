@@ -6,9 +6,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Бошқарув">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'512'%20height%3D'512'%3E%3Crect%20width%3D'512'%20height%3D'512'%20rx%3D'96'%20fill%3D'%2314695C'%2F%3E%3Cpath%20d%3D'M150%20270%20l70%2070%20l140%20-160'%20fill%3D'none'%20stroke%3D'%23fff'%20stroke-width%3D'48'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%2F%3E%3C%2Fsvg%3E">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27512%27%20height%3D%27512%27%3E%3Crect%20width%3D%27512%27%20height%3D%27512%27%20rx%3D%2796%27%20fill%3D%27%2314695C%27/%3E%3Cpath%20d%3D%27M150%20270%20l70%2070%20l140%20-160%27%20fill%3D%27none%27%20stroke%3D%27%23fff%27%20stroke-width%3D%2748%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27/%3E%3C/svg%3E">
-<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%20%22%5Cu0411%5Cu043e%5Cu0448%5Cu049b%5Cu0430%5Cu0440%5Cu0443%5Cu0432%20%5Cu043c%5Cu0430%5Cu0440%5Cu043a%5Cu0430%5Cu0437%5Cu0438%22%2C%20%22short_name%22%3A%20%22%5Cu0411%5Cu043e%5Cu0448%5Cu049b%5Cu0430%5Cu0440%5Cu0443%5Cu0432%22%2C%20%22description%22%3A%20%22%5Cu0422%5Cu043e%5Cu043f%5Cu0448%5Cu0438%5Cu0440%5Cu0438%5Cu049b%5Cu043b%5Cu0430%5Cu0440%20%5Cu0432%5Cu0430%20%5Cu0445%5Cu043e%5Cu0434%5Cu0438%5Cu043c%5Cu043b%5Cu0430%5Cu0440%5Cu043d%5Cu0438%20%5Cu0431%5Cu043e%5Cu0448%5Cu049b%5Cu0430%5Cu0440%5Cu0438%5Cu0448%22%2C%20%22start_url%22%3A%20%22.%22%2C%20%22scope%22%3A%20%22.%22%2C%20%22display%22%3A%20%22standalone%22%2C%20%22background_color%22%3A%20%22%23F4F3EE%22%2C%20%22theme_color%22%3A%20%22%23191D1A%22%2C%20%22lang%22%3A%20%22uz%22%2C%20%22icons%22%3A%20%5B%7B%22src%22%3A%20%22data%3Aimage/svg%2Bxml%2C%253Csvg%2520xmlns%253D%2527http%253A//www.w3.org/2000/svg%2527%2520width%253D%2527512%2527%2520height%253D%2527512%2527%253E%253Crect%2520width%253D%2527512%2527%2520height%253D%2527512%2527%2520rx%253D%252796%2527%2520fill%253D%2527%252314695C%2527/%253E%253Cpath%2520d%253D%2527M150%2520270%2520l70%252070%2520l140%2520-160%2527%2520fill%253D%2527none%2527%2520stroke%253D%2527%2523fff%2527%2520stroke-width%253D%252748%2527%2520stroke-linecap%253D%2527round%2527%2520stroke-linejoin%253D%2527round%2527/%253E%253C/svg%253E%22%2C%20%22sizes%22%3A%20%22512x512%22%2C%20%22type%22%3A%20%22image/svg%2Bxml%22%2C%20%22purpose%22%3A%20%22any%20maskable%22%7D%5D%7D">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
@@ -793,7 +793,7 @@ function saveTask(id){
   const title=val('m-title');if(!title){alert('Топшириқ номини киритинг.');return;}
   const data={title,desc:val('m-desc'),assignee:val('m-emp'),project:val('m-proj'),priority:val('m-prio'),status:val('m-status'),deadline:val('m-deadline')};
   if(id){Object.assign(S.tasks.find(x=>x.id===id),data);}
-  else{S.tasks.push({id:uid(),createdAt:todayStr(),...data});}
+  else{S.tasks.push({id:uid(),createdAt:new Date().toISOString(),...data});}
   save();closeModal();render();
 }
 function saveEmp(){const name=val('m-name');if(!name){alert('Исмни киритинг.');return;}
@@ -831,7 +831,7 @@ function buildNav(){
 }
 
 /* ---------- init ---------- */
-if('serviceWorker' in navigator){try{var swCode="self.addEventListener('install',function(e){self.skipWaiting()});"+"self.addEventListener('activate',function(e){self.clients.claim()});"+"self.addEventListener('fetch',function(e){});";var swUrl=URL.createObjectURL(new Blob([swCode],{type:'text/javascript'}));navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}}
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 (async function(){
   if(sb)setSync('saving');
   buildNav();
